@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>KKS Shopping Store — Wholesale Appliance Catalogue</title>
+<meta name="description" content="Browse the full KKS Shopping Store range — electric appliances, kitchenware and household items. Build an inquiry list and send it straight to WhatsApp.">
+<meta name="theme-color" content="#062B23">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap">
+<script>
+  /* set theme + js flag before first paint (no flash) */
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    try {
+      var p = JSON.parse(localStorage.getItem('kks_prefs_v1') || '{}');
+      var th = p.theme || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      d.setAttribute('data-theme', th);
+    } catch (e) { d.setAttribute('data-theme', 'light'); }
+  })();
+</script>
+<link rel="stylesheet" href="css/store.css">
+</head>
+<body>
+
+<a class="skip-link" href="#catalogue" data-i18n="skip">Skip to catalogue</a>
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- Announcement -->
+<div class="announce">
+  <span data-i18n="announce">Wholesale dealers: browse every model, then send your list on WhatsApp</span>
+  <a href="tel:0112936189" data-href="tel" data-bind="store_phone">011 293 6189</a>
+</div>
+
+<!-- Header -->
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">K<i></i></span>
+      <span class="brand-text">
+        <span class="brand-name" id="brand-name-text" data-bind="store_name">KKS Shopping Store</span>
+        <span class="brand-tag" data-i18n="brand_tag">Wholesale Appliance Gallery</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <a href="#categories" data-i18n="nav_categories">Categories</a>
+      <a href="#catalogue" data-i18n="nav_catalogue">Catalogue</a>
+      <a href="#how" data-i18n="nav_how">How it works</a>
+      <a href="#visit" data-i18n="nav_visit">Visit us</a>
+    </nav>
+
+    <div class="search-wrap" id="search-wrap">
+      <span class="search-icon" data-icon="search"></span>
+      <input type="text" id="search-input" class="search-input" autocomplete="off" spellcheck="false"
+             data-i18n-ph="search_ph" data-i18n-aria="search_aria" placeholder="Search model number or product…" aria-label="Search">
+      <kbd class="search-kbd">/</kbd>
+      <button class="search-clear" id="search-clear" type="button" hidden data-icon="close" data-i18n-aria="clear_search" aria-label="Clear search"></button>
+      <button class="search-close" id="search-close" type="button" data-i18n="close_btn">Close</button>
+      <div class="suggest" id="suggest" role="listbox" hidden></div>
+    </div>
+
+    <div class="topbar-actions">
+      <button class="icon-btn search-toggle" id="search-toggle" type="button" data-icon="search" data-i18n-aria="search_aria" aria-label="Search"></button>
+      <div class="lang" role="group" data-i18n-aria="lang_aria" aria-label="Language">
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="si">සිං</button>
+        <button type="button" data-lang="ta">தமி</button>
+      </div>
+      <button class="icon-btn" id="theme-toggle" type="button" data-i18n-aria="theme_aria" aria-label="Toggle dark mode">
+        <span class="ico-sun" data-icon="sun"></span><span class="ico-moon" data-icon="moon"></span>
+      </button>
+      <button class="icon-btn acct-btn" id="account-btn" type="button" aria-label="Account">
+        <span data-icon="user"></span><span class="acct-dot" id="acct-dot" hidden></span>
+      </button>
+      <button class="icon-btn" id="list-icon-btn" type="button" data-i18n-aria="list_aria" aria-label="Open inquiry list">
+        <span data-icon="list"></span>
+        <span class="count-badge" id="header-count" hidden>0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true">
+    <i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i>
+    <div class="hero-dots"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow"><i class="pulse"></i><span data-i18n="hero_eyebrow">Dealer catalogue · No login needed</span></span>
+      <h1 class="hero-title" id="hero-title" data-i18n="hero_title" data-split>Every model. One catalogue.|One WhatsApp tap.</h1>
+      <p class="hero-sub" data-i18n="hero_sub">Browse our full range of appliances and household items, build your inquiry list, and send it to us on WhatsApp in one tap.</p>
+      <div class="hero-cta">
+        <a href="#catalogue" class="btn btn-saffron btn-lg"><span data-i18n="cta_browse">Browse catalogue</span><span data-icon="arrowRight"></span></a>
+        <a href="#how" class="btn btn-glass btn-lg" data-i18n="cta_how">How it works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><b id="stat-products">0</b><span data-i18n="stat_products">Models</span></div>
+        <div class="hstat"><b id="stat-categories">0</b><span data-i18n="stat_categories">Categories</span></div>
+        <div class="hstat"><b>1</b><span data-i18n="stat_tap">Tap to inquire</span></div>
+      </div>
+    </div>
+
+    <div class="hero-stage" id="hero-stage" aria-hidden="true">
+      <div class="stage-ring"></div>
+      <div class="stage-disc"></div>
+      <div id="hero-floaters"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Category marquee -->
+<div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee-track"></div></div>
+
+<!-- Shop by category -->
+<section class="section" id="categories">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 data-i18n="cats_title">Shop by category</h2>
+      <p data-i18n="cats_sub">Jump straight to what you need</p>
+    </div>
+    <div class="cat-grid" id="cat-grid"></div>
+  </div>
+</section>
+
+<!-- Catalogue -->
+<section class="catalogue" id="catalogue">
+  <div class="cat-rail-wrap" id="cat-rail-wrap">
+    <nav class="cat-rail" id="cat-rail" aria-label="Product categories"></nav>
+  </div>
+
+  <main class="wrap catalogue-main">
+    <div class="listing-bar">
+      <div class="results" id="results-text" aria-live="polite"></div>
+      <div class="listing-tools">
+        <label class="sort">
+          <span data-i18n="sort_label">Sort</span>
+          <select id="sort-select">
+            <option value="default" data-i18n="sort_default">Default</option>
+            <option value="az" data-i18n="sort_az">Name A–Z</option>
+            <option value="model" data-i18n="sort_model">Model number</option>
+            <option value="box" data-i18n="sort_box">Pcs per box</option>
+          </select>
+        </label>
+        <div class="view-toggle" role="group" aria-label="View">
+          <button type="button" data-view="grid" class="active" data-icon="grid" aria-label="Grid view"></button>
+          <button type="button" data-view="list" data-icon="rows" aria-label="List view"></button>
+        </div>
+      </div>
+    </div>
+    <div id="sections-root"></div>
+  </main>
+</section>
+
+<!-- How it works -->
+<section class="section section-alt" id="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2 data-i18n="how_title">Three steps. No login.</h2>
+      <p data-i18n="how_sub">From browsing to a WhatsApp message in under a minute</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal" style="--d:0ms">
+        <span class="step-no">01</span>
+        <span class="step-ico" data-icon="search"></span>
+        <h3 data-i18n="step1_t">Browse the range</h3>
+        <p data-i18n="step1_d">Filter by category or search by model number.</p>
+      </div>
+      <div class="step reveal" style="--d:120ms">
+        <span class="step-no">02</span>
+        <span class="step-ico" data-icon="list"></span>
+        <h3 data-i18n="step2_t">Build your list</h3>
+        <p data-i18n="step2_d">Tap Add to list and set your quantities.</p>
+      </div>
+      <div class="step reveal" style="--d:240ms">
+        <span class="step-no">03</span>
+        <span class="step-ico" data-icon="whatsapp"></span>
+        <h3 data-i18n="step3_t">Send on WhatsApp</h3>
+        <p data-i18n="step3_d">One tap sends your whole list to us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Visit -->
+<section class="section" id="visit">
+  <div class="wrap">
+    <div class="visit reveal">
+      <div class="visit-info">
+        <span class="eyebrow eyebrow-dark"><i class="pulse"></i><span data-i18n="visit_eyebrow">Our store</span></span>
+        <h2 data-i18n="visit_title">Visit our store</h2>
+        <p data-i18n="visit_sub">Come and see the range in person.</p>
+        <address class="visit-addr"><span data-icon="pin"></span><span data-bind="store_address">192A, Shanthi Road, Hendala, Wattala</span></address>
+        <div class="visit-actions">
+          <a class="btn btn-saffron" href="#" target="_blank" rel="noopener" data-href="map"><span data-icon="pin"></span><span data-i18n="directions">Get directions</span></a>
+          <a class="btn btn-glass" href="tel:0112936189" data-href="tel"><span data-icon="phone"></span><span data-i18n="call">Call</span></a>
+          <a class="btn btn-wa" href="#" target="_blank" rel="noopener" data-href="wa"><span data-icon="whatsapp"></span>WhatsApp</a>
+        </div>
+      </div>
+      <div class="visit-map" aria-hidden="true">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="300" fill="rgba(255,255,255,.04)"/>
+          <g fill="none" stroke="rgba(255,255,255,.18)" stroke-width="10" stroke-linecap="round">
+            <path d="M-10 210 C 80 190, 140 230, 230 190 S 360 120, 420 140"/>
+            <path d="M120 -10 C 140 80, 110 150, 150 310"/>
+            <path d="M300 -10 C 280 70, 320 150, 290 310"/>
+          </g>
+          <g fill="none" stroke="rgba(255,255,255,.1)" stroke-width="5" stroke-linecap="round">
+            <path d="M-10 90 L 420 70"/><path d="M-10 260 L 420 280"/><path d="M210 -10 L 200 310"/>
+          </g>
+          <g fill="rgba(255,255,255,.06)">
+            <rect x="30" y="110" width="60" height="40" rx="8"/><rect x="160" y="30" width="70" height="40" rx="8"/>
+            <rect x="320" y="200" width="60" height="50" rx="8"/><rect x="40" y="230" width="50" height="40" rx="8"/>
+          </g>
+        </svg>
+        <div class="map-pin"><span class="map-pulse"></span><span class="map-dot" data-icon="pin"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <div class="footer-brand"><span class="brand-mark">K<i></i></span><strong data-bind="store_name">KKS Shopping Store</strong></div>
+      <p class="footer-tag" data-i18n="footer_tag">Wholesale electric &amp; household appliances</p>
+    </div>
+    <div>
+      <h4 data-i18n="footer_explore">Explore</h4>
+      <a href="#categories" data-i18n="nav_categories">Categories</a>
+      <a href="#catalogue" data-i18n="nav_catalogue">Catalogue</a>
+      <a href="#how" data-i18n="nav_how">How it works</a>
+    </div>
+    <div>
+      <h4 data-i18n="footer_contact">Contact</h4>
+      <a href="tel:0112936189" data-href="tel"><span data-bind="store_phone">011 293 6189</span></a>
+      <a href="#" target="_blank" rel="noopener" data-href="wa">WhatsApp: 077 378 2888</a>
+      <span class="footer-addr" data-bind="store_address">192A, Shanthi Road, Hendala, Wattala</span>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">© <span id="year">2026</span> <span data-bind="store_name">KKS Shopping Store</span></div>
+</footer>
+
+<!-- Floating controls -->
+<button class="backtop" id="backtop" type="button" data-icon="chevronUp" data-i18n-aria="back_top" aria-label="Back to top"></button>
+<button class="fab" id="inquiry-fab" type="button" hidden>
+  <span data-icon="list"></span>
+  <span class="fab-label" data-i18n="fab_label">Inquiry List</span>
+  <span class="fab-count" id="fab-count">0</span>
+</button>
+
+<!-- Inquiry drawer -->
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Inquiry list">
+  <div class="drawer-header">
+    <div>
+      <h3 data-i18n="drawer_title">Your inquiry list</h3>
+      <div class="drawer-sub" id="drawer-count"></div>
+    </div>
+    <button class="drawer-close" id="drawer-close" type="button" data-icon="close" data-i18n-aria="close_btn" aria-label="Close"></button>
+  </div>
+  <div class="drawer-list" id="drawer-list"></div>
+  <div class="drawer-footer" id="drawer-footer">
+    <div class="field-row">
+      <label for="contact-name" data-i18n="name_label">Your name (optional)</label>
+      <input type="text" id="contact-name" placeholder="e.g. Nimal Perera" autocomplete="name">
+    </div>
+    <div class="field-row">
+      <label for="contact-phone" data-i18n="phone_label">Contact number (optional)</label>
+      <input type="tel" id="contact-phone" placeholder="e.g. 0771234567" autocomplete="tel">
+    </div>
+    <button class="btn btn-saffron btn-block btn-lg" id="checkout-btn" type="button"><span data-icon="check"></span><span>Place order</span></button>
+    <div class="or-line"><span>or send a quick inquiry</span></div>
+    <button class="btn btn-wa btn-block" id="send-whatsapp-btn" type="button"><span data-icon="whatsapp"></span><span data-i18n="send_wa">Send via WhatsApp</span></button>
+    <div class="drawer-row">
+      <button class="btn btn-ghost btn-sm" id="copy-list-btn" type="button"><span data-icon="copy"></span><span data-i18n="copy_list">Copy list</span></button>
+      <button class="btn btn-ghost btn-sm" id="clear-list-btn" type="button"><span data-icon="trash"></span><span data-i18n="clear_list">Clear list</span></button>
+    </div>
+  </div>
+</aside>
+
+<!-- Product modal -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-model">
+    <div class="modal-media" id="modal-media">
+      <div class="modal-art" id="modal-art"></div>
+      <button class="modal-close-x" id="modal-close" type="button" data-icon="close" data-i18n-aria="close_btn" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <span class="modal-cat" id="modal-cat"></span>
+      <div class="modal-model" id="modal-model"></div>
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-meta-row">
+        <div class="modal-meta-item"><span class="k" data-i18n="m_category">Category</span><span class="v" id="modal-cat-name">—</span></div>
+        <div class="modal-meta-item"><span class="k" data-i18n="m_pcs">Pcs / box</span><span class="v" id="modal-pcs">—</span></div>
+      </div>
+      <div class="modal-actions" id="modal-actions"></div>
+      <div class="modal-links">
+        <a class="link-btn" id="modal-wa" href="#" target="_blank" rel="noopener"><span data-icon="whatsapp"></span><span data-i18n="ask_wa">Ask on WhatsApp</span></a>
+        <a class="link-btn" id="modal-share" href="#" target="_blank" rel="noopener"><span data-icon="share"></span><span data-i18n="share">Share</span></a>
+      </div>
+      <div class="modal-related" id="modal-related-wrap" hidden>
+        <div class="modal-related-title" data-i18n="related">More in this category</div>
+        <div class="modal-related-list" id="modal-related"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Account / checkout dialog (content rendered by app.js) -->
+<div class="dialog-backdrop" id="dialog-backdrop">
+  <div class="dialog" id="dialog" role="dialog" aria-modal="true">
+    <button class="dialog-x" id="dialog-x" type="button" data-icon="close" aria-label="Close"></button>
+    <div id="dialog-body"></div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-wrap" aria-live="polite"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

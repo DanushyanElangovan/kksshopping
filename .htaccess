@@ -1,0 +1,19 @@
+Options -Indexes
+DirectoryIndex index.html
+
+# Never serve internals or the SQL dump
+<FilesMatch "\.(sql|md|log|sample)$">
+  Require all denied
+</FilesMatch>
+RedirectMatch 404 ^/(.*/)?(includes|tools)(/|$)
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "same-origin"
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/svg+xml "access plus 7 days"
+  ExpiresByType text/css "access plus 1 hour"
+  ExpiresByType application/javascript "access plus 1 hour"
+</IfModule>
